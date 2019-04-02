@@ -1,0 +1,47 @@
+{
+    status: 1,
+    data: [
+        {
+            from: "10-02-2019 15:20",
+            to: "12-02-2019 12:00",
+            event: {
+                title: "หัวเรื่องของ Event",
+                detail: "คำอธิบายกิจกรรม",
+                memberList: [
+                    {
+                        id: 1,
+                        name: "Cherprang BNK48",
+                        slug: "bnk48official.cherprang"
+                    },
+                    {
+                        id: 2,
+                        name: "Izurina BNK48",
+                        slug: "bnk48official.izurina"
+                    }
+                ],
+                img: "url รูปภาพ (ถ้าไม่มีก็ไม่ต้องใส่)"
+            }
+        },
+        {
+            from: "11-02-2019 15:20",
+            to: "12-02-2019 12:00",
+            event: {
+                title: "หัวเรื่องของ Event",
+                detail: "คำอธิบายกิจกรรม",
+                memberList: [
+                    {
+                        id: 1,
+                        name: "Pun BNK48",
+                        slug: "bnk48official.cherprang"
+                    }
+                ],
+                img: "url รูปภาพ (ถ้าไม่มีก็ไม่ต้องใส่)",
+                place: {
+                    name: "ดาวโลก",
+                    longitude: "(ถ้าไม่มีก็ไม่ต้องใส่)",
+                    latitude: "(ถ้าไม่มีก็ไม่ต้องใส่)"
+                }
+            }
+        }
+    ]
+}

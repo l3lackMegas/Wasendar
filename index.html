@@ -1,0 +1,149 @@
+<html>
+<head>
+    <title>Wasendar</title>
+    <link rel="stylesheet" href="css/wasendar.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/wasendar.js?v=1"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #ccc;
+        }
+        #container {
+            margin: 0 auto;;
+            width: 613px;
+            height: 300px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="wasen-panel">
+            <div id="wasen-head">
+                asdasd
+            </div>
+            <div id="wasen-body">
+                <div id="wasenday-text" class="wasen-week">
+                    <div class="wasen-day">อา.</div>
+                    <div class="wasen-day">จ.</div>
+                    <div class="wasen-day">อ.</div>
+                    <div class="wasen-day">พ.</div>
+                    <div class="wasen-day">พฤ.</div>
+                    <div class="wasen-day">ศ.</div>
+                    <div class="wasen-day">ส.</div>
+                </div>
+                <div class="wasen-week">
+                    <div class="wasen-day"><a>1</a></div>
+                    <div class="wasen-day">2</div>
+                    <div class="wasen-day">3</div>
+                    <div class="wasen-day">4</div>
+                    <div class="wasen-day">5</div>
+                    <div class="wasen-day">6</div>
+                    <div class="wasen-day">7</div>
+                </div>
+                <div class="wasen-week">
+                    <div class="wasen-day">8</div>
+                    <div class="wasen-day">9</div>
+                    <div class="wasen-day">10</div>
+                    <div class="wasen-day">11</div>
+                    <div class="wasen-day">12</div>
+                    <div class="wasen-day">13</div>
+                    <div class="wasen-day">14</div>
+                </div>
+                <div class="wasen-week">
+                    <div class="wasen-day">8</div>
+                    <div class="wasen-day">9</div>
+                    <div class="wasen-day">10</div>
+                    <div class="wasen-day">11</div>
+                    <div class="wasen-day">12</div>
+                    <div class="wasen-day">13</div>
+                    <div class="wasen-day">14</div>
+                </div>
+                <div class="wasen-week">
+                    <div class="wasen-day">8</div>
+                    <div class="wasen-day">9</div>
+                    <div class="wasen-day">10</div>
+                    <div class="wasen-day">11</div>
+                    <div class="wasen-day">12</div>
+                    <div class="wasen-day">13</div>
+                    <div class="wasen-day">14</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            var wasender = wasendarInit({
+                id: '#container',
+                fn: function(data) {
+                    console.log(data);
+                },
+                data: [
+                    {
+                        from: "10-03-2019 15:20",
+                        to: "12-03-2019 12:00",
+                        event: {
+                            title: "หัวเรื่องของ Event",
+                            detail: "คำอธิบายกิจกรรม",
+                            memberList: [
+                                {
+                                    id: 1,
+                                    name: "Cherprang BNK48",
+                                    slug: "bnk48official.cherprang"
+                                },
+                                {
+                                    id: 2,
+                                    name: "Izurina BNK48",
+                                    slug: "bnk48official.izurina"
+                                }
+                            ],
+                            img: "url รูปภาพ (ถ้าไม่มีก็ไม่ต้องใส่)"
+                        }
+                    },
+                    {
+                        from: "11-03-2019 15:20",
+                        to: "12-03-2019 12:00",
+                        event: {
+                            title: "หัวเรื่องของ Event",
+                            detail: "คำอธิบายกิจกรรม",
+                            memberList: [
+                                {
+                                    id: 1,
+                                    name: "Pun BNK48",
+                                    slug: "bnk48official.cherprang"
+                                }
+                            ],
+                            img: "url รูปภาพ (ถ้าไม่มีก็ไม่ต้องใส่)",
+                            place: {
+                                name: "ดาวโลก",
+                                longitude: "(ถ้าไม่มีก็ไม่ต้องใส่)",
+                                latitude: "(ถ้าไม่มีก็ไม่ต้องใส่)"
+                            }
+                        }
+                    },
+                    {
+                        from: 1552638000000,
+                        to: 1552897200000,
+                        event: {
+                            title: "หัวเรื่องของ Event ตัวเลข",
+                            detail: "คำอธิบายกิจกรรม",
+                            memberList: [
+                                {
+                                    id: 1,
+                                    name: "Pun BNK48",
+                                    slug: "bnk48official.cherprang"
+                                }
+                            ],
+                            img: "url รูปภาพ (ถ้าไม่มีก็ไม่ต้องใส่)",
+                            place: {
+                                name: "ดาวโลก",
+                                longitude: "(ถ้าไม่มีก็ไม่ต้องใส่)",
+                                latitude: "(ถ้าไม่มีก็ไม่ต้องใส่)"
+                            }
+                        }
+                    }
+                ]
+            });
+        </script>
+</body>
+</html>
