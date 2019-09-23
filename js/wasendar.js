@@ -172,34 +172,106 @@ function wasendarInit(option) {
                 whDate++;
                 whI++;
             }
+        },
+        init = function() {
+            $.each(option.data, function(i, value) {
+                switch (typeof value.from) {
+                    case 'string':
+                        var crrFrmTime = new Date((value.from).split(' ')[0].split('-')[2], (value.from).split(' ')[0].split('-')[1] - 1, (value.from).split(' ')[0].split('-')[0]),
+                            crr2Time = new Date((value.to).split(' ')[0].split('-')[2], (value.to).split(' ')[0].split('-')[1] - 1, (value.to).split(' ')[0].split('-')[0]);
+                        break;
+                        
+                    case 'number':
+                        var crrFrmTime = new Date(value.from),
+                            crr2Time = new Date(value.to);
+                        break;
+        
+                    default:
+                        break;
+                }
+                indexData(value, crrFrmTime, crr2Time);
+            });
+            
+    
+            var targetMonth = new Date(),
+            headHtml = '<p class="arrows"><i class="fas fa-angle-left"></i></p>' + 
+                '<div id="wasenHeadText" state="day">' + wasuDateStr("fullMonth", currDate.getMonth()) + ' ' + currDate.getFullYear() + '</div>' + 
+                '<p class="arrows right"><i class="fas fa-angle-right"></i></p>';
+    
+            $('#wasen-head', panelTemplate).html(headHtml);
+        
+            $(option.id).html(wasenGenerateMonth(targetMonth, true));
+            $('#wasenHeadText').click(function() {
+                if($(this).attr('state') != "years") {
+                    $(this).css('opacity', '0');
+                    $('#wasen-body').css('animation', 'zoomOut .5s forwards');
+                    setTimeout(() => {
+                        switch($(this).attr('state')) {
+                            case "day":
+                                genYear(0, $(this), selectedDate);
+                                break;
+        
+                            case "month":
+                                $('.arrows').each(function( index ) {
+                                    $(this).css({
+                                        opacity: 0,
+                                        cursor: 'initial'
+                                    })
+                                });
+                                genYears((currDate.getFullYear() - 2), $(this), selectedDate);
+                                break;
+                        }
+                        runFunction();
+                        $(this).css('opacity', '');
+                        $('#wasen-body').css('animation', 'zoomInOut .5s forwards');
+                    }, 200);
+                }
+            });
+    
+            $('.arrows').click(function() {
+                if($(this).hasClass('right') == true && $('#wasenHeadText').attr('state') != "years") {
+                    $('#wasenHeadText').css('opacity', '0');
+                    $('#wasen-body').css('animation', 'fadeOutLeft .5s forwards');
+                    setTimeout(() => {
+                        switch ($('#wasenHeadText').attr('state')) {
+                            case "day":
+                                selectedDate = new Date(selectedDate.getFullYear(), (selectedDate.getMonth() + 1), selectedDate.getDate());
+                                wasenGenerateMonth(selectedDate);
+                            break;
+                    
+                            case "month":
+                                selectedDate = new Date((selectedDate.getFullYear() + 1), selectedDate.getMonth(), selectedDate.getDate());
+                                genYear(0, $('#wasenHeadText'), selectedDate);
+                                break;
+                        }
+                        $('#wasenHeadText').css('opacity', '');
+                        $('#wasen-body').css('animation', 'fadeInRight .5s forwards');
+                        runFunction();
+                    }, 200);
+                } else if($(this).hasClass('right') == false && $('#wasenHeadText').attr('state') != "years") {
+                    $('#wasenHeadText').css('opacity', '0');
+                    $('#wasen-body').css('animation', 'fadeOutRight .5s forwards');
+                    setTimeout(() => {
+                        switch ($('#wasenHeadText').attr('state')) {
+                            case "day":
+                                selectedDate = new Date(selectedDate.getFullYear(), (selectedDate.getMonth() - 1), selectedDate.getDate());
+                                wasenGenerateMonth(selectedDate);
+                            break;
+                    
+                            case "month":
+                                selectedDate = new Date((selectedDate.getFullYear() - 1), selectedDate.getMonth(), selectedDate.getDate());
+                                genYear(0, $('#wasenHeadText'), selectedDate);
+                                break;
+                        }
+                        $('#wasenHeadText').css('opacity', '');
+                        $('#wasen-body').css('animation', 'fadeInLeft .5s forwards');
+                        runFunction();
+                    }, 200);
+                }
+            });
         };
 
-        $.each(option.data, function(i, value) {
-            switch (typeof value.from) {
-                case 'string':
-                    var crrFrmTime = new Date((value.from).split(' ')[0].split('-')[2], (value.from).split(' ')[0].split('-')[1] - 1, (value.from).split(' ')[0].split('-')[0]),
-                        crr2Time = new Date((value.to).split(' ')[0].split('-')[2], (value.to).split(' ')[0].split('-')[1] - 1, (value.to).split(' ')[0].split('-')[0]);
-                    break;
-                    
-                case 'number':
-                    var crrFrmTime = new Date(value.from),
-                        crr2Time = new Date(value.to);
-                    break;
-    
-                default:
-                    break;
-            }
-            indexData(value, crrFrmTime, crr2Time);
-        });
-
-        var targetMonth = new Date(),
-        headHtml = '<p class="arrows"><i class="fas fa-angle-left"></i></p>' + 
-            '<div id="wasenHeadText" state="day">' + wasuDateStr("fullMonth", currDate.getMonth()) + ' ' + currDate.getFullYear() + '</div>' + 
-            '<p class="arrows right"><i class="fas fa-angle-right"></i></p>';
-
-        $('#wasen-head', panelTemplate).html(headHtml);
-    
-        $(option.id).html(wasenGenerateMonth(targetMonth, true));
+        init();
 
         var runFunction = function() {
             $('.wasen-day').click(function() {
@@ -208,7 +280,7 @@ function wasendarInit(option) {
                     $('#wasenHeadText').css('opacity', '0');
                     $('#wasen-body').css('animation', 'zoomOutIn .5s forwards');
                     setTimeout(() => {
-                        selectedDate = new Date($(this).attr('data'));
+						selectedDate = new Date(($(this).attr('data')).split(' ')[0].split('-')[2], ($(this).attr('data')).split(' ')[0].split('-')[1] - 1, ($(this).attr('data')).split(' ')[0].split('-')[0]);
                         switch($('#wasenHeadText').attr('state')) {
                             case "years":
                                 genYear(0, $('#wasenHeadText'), selectedDate);
@@ -227,7 +299,7 @@ function wasendarInit(option) {
                         $(this).removeClass('selected');
                       });
                     $(this).addClass('selected');
-                    selectedDate = new Date($(this).attr('data'));
+                    selectedDate = new Date(($(this).attr('data')).split(' ')[0].split('-')[2], ($(this).attr('data')).split(' ')[0].split('-')[1] - 1, ($(this).attr('data')).split(' ')[0].split('-')[0]);
                 }
                 $('.arrows').each(function( index ) {
                     $(this).css({
@@ -238,76 +310,10 @@ function wasendarInit(option) {
             });
         }
 
-        $('#wasenHeadText').click(function() {
-            if($(this).attr('state') != "years") {
-                $(this).css('opacity', '0');
-                $('#wasen-body').css('animation', 'zoomOut .5s forwards');
-                setTimeout(() => {
-                    switch($(this).attr('state')) {
-                        case "day":
-                            genYear(0, $(this), selectedDate);
-                            break;
-    
-                        case "month":
-                            $('.arrows').each(function( index ) {
-                                $(this).css({
-                                    opacity: 0,
-                                    cursor: 'initial'
-                                })
-                            });
-                            genYears((currDate.getFullYear() - 2), $(this), selectedDate);
-                            break;
-                    }
-                    runFunction();
-                    $(this).css('opacity', '');
-                    $('#wasen-body').css('animation', 'zoomInOut .5s forwards');
-                }, 200);
-            }
-        });
-
-        $('.arrows').click(function() {
-            if($(this).hasClass('right') == true && $('#wasenHeadText').attr('state') != "years") {
-                $('#wasenHeadText').css('opacity', '0');
-                $('#wasen-body').css('animation', 'fadeOutLeft .5s forwards');
-                setTimeout(() => {
-                    switch ($('#wasenHeadText').attr('state')) {
-                        case "day":
-                            selectedDate = new Date(selectedDate.getFullYear(), (selectedDate.getMonth() + 1), selectedDate.getDate());
-                            wasenGenerateMonth(selectedDate);
-                        break;
-                
-                        case "month":
-                            selectedDate = new Date((selectedDate.getFullYear() + 1), selectedDate.getMonth(), selectedDate.getDate());
-                            genYear(0, $('#wasenHeadText'), selectedDate);
-                            break;
-                    }
-                    $('#wasenHeadText').css('opacity', '');
-                    $('#wasen-body').css('animation', 'fadeInRight .5s forwards');
-                    runFunction();
-                }, 200);
-            } else if($(this).hasClass('right') == false && $('#wasenHeadText').attr('state') != "years") {
-                $('#wasenHeadText').css('opacity', '0');
-                $('#wasen-body').css('animation', 'fadeOutRight .5s forwards');
-                setTimeout(() => {
-                    switch ($('#wasenHeadText').attr('state')) {
-                        case "day":
-                            selectedDate = new Date(selectedDate.getFullYear(), (selectedDate.getMonth() - 1), selectedDate.getDate());
-                            wasenGenerateMonth(selectedDate);
-                        break;
-                
-                        case "month":
-                            selectedDate = new Date((selectedDate.getFullYear() - 1), selectedDate.getMonth(), selectedDate.getDate());
-                            genYear(0, $('#wasenHeadText'), selectedDate);
-                            break;
-                    }
-                    $('#wasenHeadText').css('opacity', '');
-                    $('#wasen-body').css('animation', 'fadeInLeft .5s forwards');
-                    runFunction();
-                }, 200);
-            }
-        });
+        
         runFunction();
         var output = {
+            refresh: init,
             genMonth: wasenGenerateMonth,
             wasuDateStr: wasuDateStr,
             dateSelected: function() {
